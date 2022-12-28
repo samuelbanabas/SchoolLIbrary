@@ -1,0 +1,18 @@
+﻿@{
+    string controller = ViewContext.RouteData.Values["controller"].ToString();
+    string action = ViewContext.RouteData.Values["action"].ToString();
+
+    if (controller == "Account")
+    {
+        Layout = "_AccountLayout";
+    }
+    else if (controller == "Home" && action =="Privacy")
+    {
+        Layout = "_PrivacyLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+

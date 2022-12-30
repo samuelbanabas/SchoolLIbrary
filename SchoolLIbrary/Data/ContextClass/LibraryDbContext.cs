@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolLIbrary.Models;
 
@@ -8,6 +9,17 @@ namespace SchoolLIbrary.Data.ContextClass
     {
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options) 
         {
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            
+                builder.Entity<IdentityRole>().HasData(
+                    new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
+                    new IdentityRole { Name = "User", NormalizedName = "USER" }
+                );
+           
         }
         public DbSet<LibraryUser> LibraryUsers { get; set; }
         public DbSet<MaterialModel> Materials { get; set; }

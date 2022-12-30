@@ -9,10 +9,10 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<form method="post" action="/Account/Register">
+<form method="post" action="/Account/Register" enctype="multipart/form-data">
     <div class="row register">
         <div class="col-md-3 register-left">
-            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
+            
             <h3>Welcome</h3>
             <p>You are seconds away from accessing your preferred educational materials!</p>
             <a class="btn btn-light rounded-3 mb-5" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
@@ -23,7 +23,19 @@
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <h3 class="register-heading">Student Registeration Form</h3>
                     <div class="row register-form">
+                        @*For Model Error display only*@
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+                        <div class="col-md-12">
+                            <div id="imageDiv" class="form-group">
+                                <div class="text-center">
+                                    <canvas id="preview" hidden width="120" height="140"></canvas><br />                                    
+                                </div>
+                                <label asp-for="ProfileImage" id="ProfileImageLabel"></label>
+                                <input type="file" asp-for="ProfileImage" class="form-control" id="ProfileImage" name="ProfileImage" onchange="displayImage(this)" />
+                                <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="RegNo">Reg. No</label>
@@ -76,3 +88,23 @@
         </div>
     </div>
 </form>
+<script>
+    function displayImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var canvas = document.getElementById('preview');
+                var context = canvas.getContext('2d');
+                var image = new Image();
+                image.src = e.target.result;
+                image.onload = function () {
+                    context.drawImage(image, 0, 0, 120, 140);
+                    canvas.hidden=false;
+                    var imageDiv = document.getElementById('imageDiv');
+                    imageDiv.style.textAlign = 'center';
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

@@ -42,7 +42,12 @@ namespace SchoolLIbrary.Models.ViewModels
 
         [Required]
         [Display(Name = "User Type")]
-        public string UserType { get; set; } 
+        public string UserType { get; set; }
+
+        [Required]
+        [MaxFileSize(5 * 1024 * 1024)]
+        [Display(Name = "Profile image")]
+        public IFormFile? ProfileImage { get; set; }
     }
 
 }

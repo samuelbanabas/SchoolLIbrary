@@ -1,27 +1,30 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using SchoolLIbrary.Data.ContextClass;
 using SchoolLIbrary.Models;
 using SchoolLIbrary.Models.ViewModels;
 
 namespace SchoolLIbrary.Controllers
-{    
-    public class AccountController : Controller
+{
+    public class AccountController :  BaseController //Base controller was created to contain codes that will be executed
+                                                     //before any action from the controllers that inherits it
     {
         //To use the context in a controller or other class, inject it into the constructor:
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly LibraryDbContext _context;
         private readonly ILogger<AccountController> _logger;
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, LibraryDbContext context, ILogger<AccountController> logger)
+        private readonly IEmailSender _emailSender;
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, LibraryDbContext context,
+            ILogger<AccountController> logger, IEmailSender emailSender): base(userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _logger = logger;
+            _emailSender = emailSender;
         }
         public IActionResult Register()
         {
@@ -92,10 +95,23 @@ namespace SchoolLIbrary.Controllers
                         Email = model.Email,
                         PhoneNo = model.PhoneNo,
                         UserType = model.UserType,
-                        Password = model.Password
+                        Password = model.Password,
+                        Username = model.Username
                     };
                     _context.LibraryUsers.Add(libraryUser);
                     await _context.SaveChangesAsync();
+
+                    int RegResult = await _context.SaveChangesAsync();
+
+                    // Changes were saved successfully
+
+                    //// Generate a new email confirmation token and send the confirmation email
+                    //var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //var confirmationlink = Url.Action(nameof(ConfirmEmail), "Account", new { token, email = user.Email }, Request.Scheme);
+                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your email",
+                    //    $"Please confirm your account by clicking this link: <a href='{confirmationlink}'>link</a>");
+
+                    //return RedirectToAction(nameof(SuccessRegistration));
 
                     // Sign the user in
                     await _signInManager.SignInAsync(user, isPersistent: false);
@@ -132,6 +148,36 @@ namespace SchoolLIbrary.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return View("Error");
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            return View(result.Succeeded ? nameof(ConfirmEmail) : "Error");
+        }
+
+        [HttpGet]
+        public IActionResult SuccessRegistration()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Error()
+        {
+            return View();
+        }
+
+        //[HttpGet]
+        //public IActionResult CheckEmail()
+        //{
+        //    return View();
+        //}
+
+        
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
@@ -151,13 +197,14 @@ namespace SchoolLIbrary.Controllers
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return View(model);
                 }
+               
+                //// Check if the user's account has been confirmed
+                //if (!await _userManager.IsEmailConfirmedAsync(user))
+                //{
+                //    ModelState.AddModelError(string.Empty, "You must confirm your email before logging in.");
+                //    return View(model);
+                //}
 
-                // Check if the user's account has been confirmed
-                if (!await _userManager.IsEmailConfirmedAsync(user))
-                {
-                    ModelState.AddModelError(string.Empty, "You must confirm your email before logging in.");
-                    return View(model);
-                }
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -165,7 +212,7 @@ namespace SchoolLIbrary.Controllers
                 {
                     // Check the user's role and redirect to the appropriate view
                     if (model.Role == "Admin")
-                    {
+                    {                        
                         return RedirectToAction("Index", "Admin");
                     }
                     else

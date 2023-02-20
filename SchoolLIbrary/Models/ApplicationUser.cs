@@ -7,5 +7,6 @@ namespace SchoolLIbrary.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string? ProfileImageUrl { get; set; }
+        //public bool ConfirmedEmail { get; set; }
     }
 }

@@ -30,7 +30,9 @@ namespace SchoolLIbrary.Models.ViewModels
         public string Username { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{8,}$",
+        ErrorMessage = "Password must have at least one non-alphanumeric character, one lowercase letter, one uppercase letter, and be at least 8 characters long.")]
+        //[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -48,6 +50,7 @@ namespace SchoolLIbrary.Models.ViewModels
         [MaxFileSize(5 * 1024 * 1024)]
         [Display(Name = "Profile image")]
         public IFormFile? ProfileImage { get; set; }
+        public bool EmailConfirmed { get; set; }
     }
 
 }

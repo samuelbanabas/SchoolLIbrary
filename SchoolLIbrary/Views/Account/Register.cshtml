@@ -68,6 +68,12 @@
                                 <label for="Password">Password</label>
                                 <input asp-for="Password" type="password" class="form-control" id="Password" name="Password" required>
                                 <span asp-validation-for="Password" class="text-danger"></span>
+                               @* <ul class="text-danger">
+                                    @foreach (var error in ViewData.ModelState["Password"]?.Errors)
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </ul>*@
                             </div>
                             <div class="form-group">
                                 <label for="ConfirmPassword">Confirm Password</label>

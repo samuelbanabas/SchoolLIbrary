@@ -3,17 +3,131 @@
 }
 @model HomeViewModel;
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+@*<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
 
-<h1>Welcome @Model.FirstName @Model.LastName to the Library!</h1>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="card-title">Total Books</h3>
+                            <h2 class="card-subtitle mb-2">500</h2>
+                        </div>
+                        <i  class="fa fa-book fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-secondary text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="card-title">Available Books</h3>
+                            <h2 class="card-subtitle mb-2">350</h2>
+                        </div>
+                        <i class="fas fa-book-open fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-info text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="card-title">Total Students</h3>
+                            <h2 class="card-subtitle mb-2">250</h2>
+                        </div>
+                        <i class="fas fa-users fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="card-title">Borrowed Books</h3>
+                            <h2 class="card-subtitle mb-2">150</h2>
+                        </div>
+                        <i class="fas fa-hand-holding fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Book Additions</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="#">The Great Gatsby</a>
+                            <span class="badge bg-secondary rounded-pill">Fiction</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="#">The Catcher in the Rye</a>
+                            <span class="badge bg-primary rounded-pill">Fiction</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="#">To Kill a Mockingbird</a>
+                            <span class="badge bg-warning rounded-pill">Fiction</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="#">1984</a>
+                            <span class="badge bg-danger rounded-pill">Science Fiction</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="#">Brave New World</a>
+                            <span class="badge bg-info rounded-pill">Science Fiction</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title">Most Popular Books</h3>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            The Great Gatsby
+                            <span class="badge bg-secondary rounded-pill">Fiction</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            To Kill a Mockingbird
+                            <span class="badge bg-warning rounded-pill">Fiction</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            1984
+                            <span class="badge bg-danger rounded-pill">Science Fiction</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Brave New World
+                            <span class="badge bg-info rounded-pill">Science Fiction</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            The Catcher in the Rye
+                            <span class="badge bg-primary rounded-pill">Fiction</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+ </div>
 
-<p>Here are some quick links to get you started:</p>
 
-<ul>
-    <li><a asp-area="" asp-controller="Materials" asp-action="Index">Browse materials</a></li>
-    <li><a asp-area="" asp-controller="Checkouts" asp-action="Checkout">Check out a material</a></li>
-    <li><a asp-area="" asp-controller="Users" asp-action="Index">View users</a></li>
-</ul>
+
 

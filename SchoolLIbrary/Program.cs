@@ -2,6 +2,8 @@ using SchoolLIbrary.Data.ContextClass;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using SchoolLIbrary.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using SchoolLIbrary.CustomTokenProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +14,21 @@ builder.Services.AddDbContext<LibraryDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LibrarySqlDb"));
 });
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-      .AddEntityFrameworkStores<LibraryDbContext>()
-      .AddDefaultTokenProviders();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+        {
+            opt.User.RequireUniqueEmail = true;
+            opt.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
+        })
+        .AddEntityFrameworkStores<LibraryDbContext>()
+        .AddDefaultUI()
+        .AddDefaultTokenProviders()
+        .AddTokenProvider<EmailConfirmationTokenProvider<ApplicationUser>>("emailconfirmation"); 
+
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
+     opt.TokenLifespan = TimeSpan.FromHours(2));
+
+builder.Services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
+    opt.TokenLifespan = TimeSpan.FromDays(3));
 
 var app = builder.Build();
 

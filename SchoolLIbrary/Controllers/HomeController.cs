@@ -9,13 +9,13 @@ using System.Security.Claims;
 
 namespace SchoolLIbrary.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly LibraryDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, LibraryDbContext context)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, LibraryDbContext context) : base(userManager)
         {
             _logger = logger;
             _userManager = userManager;
@@ -30,14 +30,24 @@ namespace SchoolLIbrary.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 //retrieve the user's first and last name from the LibraryUser table
                 var libraryUser = _context.LibraryUsers.FirstOrDefault(x => x.UserId == user.Id);
-
+                //var AppUser = _context.Appl.FirstOrDefault(x => x.UserId == user.Id);
+               
                 var model = new HomeViewModel
                 {
                     FirstName = libraryUser.FirstName,
                     LastName = libraryUser.LastName
                 };
 
+                //var LoginModel = new LoginViewModel
+                //{
+                //    Username = libraryUser.Username
+                //};
+
+                ////Inherit the properties of the 2 models
+                //var viewModel = new DashboardViewModel { ImagePath=user.ProfileImageUrl, HomeviewModel=model, LoginviewModel=LoginModel };
+
                 // User is logged in
+                //return View(viewModel);
                 return View(model);
             }
             else

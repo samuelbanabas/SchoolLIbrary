@@ -11,6 +11,8 @@
         public string MaterialType { get; set; } //Hard copy or Electronic
         public string Falculty { get; set; }
         public string Department { get; set; }
-        public int? Quantity { get; set; }       
+        public int? Quantity { get; set; }
+        public DateTime DateCreated { get; set; }
+
     }
 }

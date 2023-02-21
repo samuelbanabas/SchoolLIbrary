@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolLIbrary.Data.ContextClass;
 
@@ -11,9 +12,11 @@ using SchoolLIbrary.Data.ContextClass;
 namespace SchoolLIbrary.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230220200648_AddDateCreatedToMaterialModel")]
+    partial class AddDateCreatedToMaterialModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace SchoolLIbrary.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fac3f601-37a6-4a64-bbc0-88774fbbd931",
+                            Id = "34d82238-6788-4b60-a3a5-e078b9dc567a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "053b559f-c77c-4677-af98-1b4726b862a7",
+                            Id = "3d54807a-bd72-4bb5-afea-83ca695d0fca",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -345,9 +348,6 @@ namespace SchoolLIbrary.Migrations
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Department")
                         .IsRequired()

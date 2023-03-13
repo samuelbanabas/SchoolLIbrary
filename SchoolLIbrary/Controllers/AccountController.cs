@@ -30,11 +30,6 @@ namespace SchoolLIbrary.Controllers
         {
             return View("Register");
         }
-        //[HttpGet]
-        //public IActionResult Register()
-        //{
-        //    return View();
-        //}
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -43,7 +38,7 @@ namespace SchoolLIbrary.Controllers
             {
                 // Check LibraryUsers Table if a user with the specified Regno already exists
 
-                if (await _context.LibraryUsers.AnyAsync(u => u.RegNo == model.RegNo))
+                if (await _context.Users.AnyAsync(u => u.RegNo == model.RegNo))
                 {
                     // If a user with the specified email already exists, display an error message
                     ModelState.AddModelError(string.Empty, "A user with this RegNo. already exists.");
@@ -77,7 +72,11 @@ namespace SchoolLIbrary.Controllers
                     Email = model.Email,
                     FirstName= model.FirstName,
                     LastName= model.LastName,
-                    ProfileImageUrl = "/images/profiles/" + fileName
+                    ProfileImageUrl = "/images/profiles/" + fileName,
+
+                    PhoneNumber=model.PhoneNo,
+                    RegNo = model.RegNo,
+                    UserType=model.UserType
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -101,17 +100,7 @@ namespace SchoolLIbrary.Controllers
                     _context.LibraryUsers.Add(libraryUser);
                     await _context.SaveChangesAsync();
 
-                    int RegResult = await _context.SaveChangesAsync();
-
-                    // Changes were saved successfully
-
-                    //// Generate a new email confirmation token and send the confirmation email
-                    //var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var confirmationlink = Url.Action(nameof(ConfirmEmail), "Account", new { token, email = user.Email }, Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your email",
-                    //    $"Please confirm your account by clicking this link: <a href='{confirmationlink}'>link</a>");
-
-                    //return RedirectToAction(nameof(SuccessRegistration));
+                    //int RegResult = await _context.SaveChangesAsync();
 
                     // Sign the user in
                     await _signInManager.SignInAsync(user, isPersistent: false);
@@ -169,14 +158,7 @@ namespace SchoolLIbrary.Controllers
         {
             return View();
         }
-
-        //[HttpGet]
-        //public IActionResult CheckEmail()
-        //{
-        //    return View();
-        //}
-
-        
+                
         [HttpGet]
         public IActionResult Login()
         {
@@ -194,32 +176,31 @@ namespace SchoolLIbrary.Controllers
                 var user = await _userManager.FindByNameAsync(model.Username);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "eee login attempt.");
                     return View(model);
                 }
-               
-                //// Check if the user's account has been confirmed
-                //if (!await _userManager.IsEmailConfirmedAsync(user))
-                //{
-                //    ModelState.AddModelError(string.Empty, "You must confirm your email before logging in.");
-                //    return View(model);
-                //}
 
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     // Check the user's role and redirect to the appropriate view
-                    if (model.Role == "Admin")
+                    if (user.UserType == "Admin")
                     {                        
                         return RedirectToAction("Index", "Admin");
                     }
-                    else
+                    else if (user.UserType == "Student")
+                    {
+                        return RedirectToAction("Index", "Student");
+                    }
+                    else if (user.UserType == "Lecturer")
+                    {
+                        return RedirectToAction("Index", "Lecturer");
+                    }
                     {
                         return RedirectToLocal(returnUrl);
                     }
                 }
+
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
@@ -244,7 +225,8 @@ namespace SchoolLIbrary.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                //Redisplay login form
+                return RedirectToAction("Login");
             }
         }
 
@@ -259,7 +241,7 @@ namespace SchoolLIbrary.Controllers
             // Sign out the user
             await _signInManager.SignOutAsync();
 
-            // Redirect the user to the home page
+            // Redirect the user to the login page
             return RedirectToAction("Login");
         }
     }

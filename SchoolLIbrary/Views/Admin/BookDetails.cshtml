@@ -1,0 +1,55 @@
+﻿@model BookViewModel
+@{
+    ViewData["Title"] = "Book details";
+}
+<h3 class="mb-4 text-uppercase card-header">@Model.Title</h3>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Author</th>
+            <td>@Model.Author</td>
+        </tr>
+        <tr>
+            <th>Publisher</th>
+            <td>@Model.Publisher</td>
+        </tr>
+        <tr>
+            <th>Year</th>
+            <td>@Model.Year</td>
+        </tr>
+        <tr>
+            <th>Genre</th>
+            <td>@Model.Genre</td>
+        </tr>
+        <tr>
+            <th>Material Type</th>
+            <td>@Model.MaterialType</td>
+        </tr>
+        <tr>
+            <th>Falculty</th>
+            <td>@Model.Falculty</td>
+        </tr>
+        <tr>
+            <th>Department</th>
+            <td>@Model.Department</td>
+        </tr>
+        <tr>
+            <th>Initial copies</th>
+            <td>@Model.Quantity</td>
+        </tr>
+        <tr>
+            <th>Date Created</th>
+            <td>@Model.DateCreated.ToShortDateString()</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-sm">
+        <a asp-action="EditBook" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    </div>
+    <div class="col-sm text-end">
+        <a asp-action="DeleteBook" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+    </div>
+</div>

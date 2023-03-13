@@ -51,15 +51,21 @@ namespace SchoolLIbrary.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fac3f601-37a6-4a64-bbc0-88774fbbd931",
+                            Id = "cc978e3e-d2e8-4ed2-bcc0-f4a5e6dc3519",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "053b559f-c77c-4677-af98-1b4726b862a7",
-                            Name = "User",
-                            NormalizedName = "USER"
+                            Id = "30b5426e-1f72-4e09-b68c-a68c2c16c8e4",
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
+                        },
+                        new
+                        {
+                            Id = "5346dab5-86b5-4c4f-a5ab-1554df16a730",
+                            Name = "Lecturer",
+                            NormalizedName = "LECTURER"
                         });
                 });
 
@@ -181,12 +187,18 @@ namespace SchoolLIbrary.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Faculty")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -210,6 +222,9 @@ namespace SchoolLIbrary.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -222,6 +237,9 @@ namespace SchoolLIbrary.Migrations
                     b.Property<string>("ProfileImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RegNo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -231,6 +249,9 @@ namespace SchoolLIbrary.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("UserType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -253,12 +274,18 @@ namespace SchoolLIbrary.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CheckoutCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CheckoutDate")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal?>("Fine")
                         .HasPrecision(10, 3)
                         .HasColumnType("decimal(10,3)");
+
+                    b.Property<int?>("LibraryUserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
@@ -269,10 +296,12 @@ namespace SchoolLIbrary.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LibraryUserId");
 
                     b.HasIndex("MaterialId");
 
@@ -365,6 +394,9 @@ namespace SchoolLIbrary.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("MaterialUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Publisher")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -376,10 +408,15 @@ namespace SchoolLIbrary.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Materials");
                 });
@@ -442,6 +479,28 @@ namespace SchoolLIbrary.Migrations
                     b.ToTable("Purchases");
                 });
 
+            modelBuilder.Entity("SchoolLIbrary.Models.RegistrationCodeModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateGenerated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StaffNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Regcodes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -495,19 +554,30 @@ namespace SchoolLIbrary.Migrations
 
             modelBuilder.Entity("SchoolLIbrary.Models.CheckoutModel", b =>
                 {
+                    b.HasOne("SchoolLIbrary.Models.LibraryUser", null)
+                        .WithMany("BorrowedBooks")
+                        .HasForeignKey("LibraryUserId");
+
                     b.HasOne("SchoolLIbrary.Models.MaterialModel", "Material")
                         .WithMany()
                         .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolLIbrary.Models.LibraryUser", "User")
+                    b.HasOne("SchoolLIbrary.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Material");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SchoolLIbrary.Models.MaterialModel", b =>
+                {
+                    b.HasOne("SchoolLIbrary.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -532,6 +602,11 @@ namespace SchoolLIbrary.Migrations
                         .IsRequired();
 
                     b.Navigation("Material");
+                });
+
+            modelBuilder.Entity("SchoolLIbrary.Models.LibraryUser", b =>
+                {
+                    b.Navigation("BorrowedBooks");
                 });
 #pragma warning restore 612, 618
         }

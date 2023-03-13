@@ -1,0 +1,81 @@
+﻿@model IEnumerable<SchoolLIbrary.Models.ViewModels.BookViewModel>
+
+@{
+    ViewData["Title"] = "Book List";
+}
+
+<h3 class="card-header mb-5">Book List</h3>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <form method="get" action="@Url.Action("Index")">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search by title or author" name="search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6 text-right">
+        <a asp-action="Create" class="btn btn-primary ml-auto"><i class="fa fa-plus"></i> Add Book</a>
+    </div>
+</div>
+
+@if (Model.Count() == 0)
+{
+    <p>No books found.</p>
+}
+else
+{
+    <table class="table table-responsive table-striped table-responsive-sm">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Publisher</th>
+                <th>Year</th>
+                <th>Genre</th>
+                <th>Available Copies</th>
+               @* <th>Material Type</th>
+                <th>Faculty</th>
+                <th>Department</th>
+                <th>Quantity</th>
+                <th>Date Created</th>*@
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr>
+                    <td>@book.Title</td>
+                    <td>@book.Author</td>
+                    <td>@book.Publisher</td>
+                    <td>@book.Year</td>
+                    <td>@book.Genre</td>
+                    <td>@book.Quantity</td>
+                    @*<td>@book.MaterialType</td>
+                    <td>@book.Falculty</td>
+                    <td>@book.Department</td>
+                    <td>@book.Quantity</td>
+                    <td>@book.DateCreated</td>*@
+                    <td class="d-flex">
+                      <div class="ms-auto">
+                        <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> View</a>
+                        <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Edit</a>
+                        <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                      </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

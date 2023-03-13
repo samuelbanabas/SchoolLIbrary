@@ -1,0 +1,28 @@
+﻿@model RegistrationCodeViewModel
+@{
+    ViewData["Title"] = "Registration Code";
+    Layout = "_AccountLayout";
+}
+
+<h3 class="card-header mb-5">Registration Code</h3>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <i class="fa fa-error"></i>@TempData["ErrorMessage"]
+    </div>
+}
+<br />
+<form asp-action="RegistrationCode" method="post">
+    <div class="row text-center" style="width:80%; margin-left:auto; margin-right:auto;">
+        <div>
+            <div class="mt-5 mb-5">
+                <p class="p-4 alert-info fs-5">Enter the registration code you recieved from the librarian or school authority.</p>
+            </div>
+            <div class="form-group mt-5 mb-5">
+                <input asp-for="Code" class="form-control form-control-lg" placeholder="Enter code" required/>
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary">Continue</button>  <a asp-action="Login" asp-controller="Account" class="btn btn-lg btn-success">Cancel</a>
+        </div>
+    </div>
+</form>

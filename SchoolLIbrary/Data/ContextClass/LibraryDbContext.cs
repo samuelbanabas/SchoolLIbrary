@@ -17,7 +17,8 @@ namespace SchoolLIbrary.Data.ContextClass
             
                 builder.Entity<IdentityRole>().HasData(
                     new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
-                    new IdentityRole { Name = "User", NormalizedName = "USER" }
+                    new IdentityRole { Name = "Student", NormalizedName = "STUDENT" },
+                    new IdentityRole { Name = "Lecturer", NormalizedName = "LECTURER" }
                 );
            
         }
@@ -26,5 +27,6 @@ namespace SchoolLIbrary.Data.ContextClass
         public DbSet<CheckoutModel> Checkouts { get; set; }
         public DbSet<NotificationModel> Notifications { get; set; }
         public DbSet<PurchaseModel> Purchases { get; set; }
+        public DbSet<RegistrationCodeModel> Regcodes { get; set; }
     }
 }

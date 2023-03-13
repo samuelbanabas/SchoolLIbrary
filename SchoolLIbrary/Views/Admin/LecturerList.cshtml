@@ -1,0 +1,66 @@
+﻿@model IEnumerable<LecturerViewModel>
+
+@{
+    ViewData["Title"] = "Lecturers";
+}
+
+<h3 class="card-header mb-5">Lecturer List</h3>
+
+<!-- Search form -->
+<div class="col-md-4 ms-auto mb-5">
+    <form asp-action="LecturerList" method="get">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search by first name, last name, or RegNo" name="searchString">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (!string.IsNullOrEmpty(ViewData["EmptyRecordMessage"] as string))
+{
+    <div class="alert alert-warning">@ViewData["EmptyRecordMessage"]</div>
+}
+else
+{
+    <table class="table table-responsive table-striped table-responsive-sm">
+        <thead>
+            <tr>
+                <th></th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone No</th>
+                <th>Registration No.</th>
+                <th>User Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lecturer in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(lecturer.ProfileImageUrl))
+                        {
+                            <img src="@lecturer.ProfileImageUrl" alt="Profile Image" width="50" height="50" />
+                        }
+                    </td>
+                    <td>@lecturer.FirstName</td>
+                    <td>@lecturer.LastName</td>
+                    <td>@lecturer.Email</td>
+                    <td>@lecturer.PhoneNo</td>
+                    <td>@lecturer.RegNo</td>
+                    <td>@lecturer.UserType</td>
+                    <td>
+                        <div class="ms-auto">
+                            <a asp-action="LecturerDetails" asp-route-id="@lecturer.Id" class="btn btn-sm btn-outline-info" data-bs-toggle="tooltip" title="View" data-bs-dark><i class="fa fa-eye"></i> </a>
+                            <a asp-action="DeleteLecturer" asp-route-id="@lecturer.Id" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete" data-bs-dark><i class="fa fa-trash"></i> </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

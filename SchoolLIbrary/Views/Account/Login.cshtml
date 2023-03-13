@@ -9,14 +9,24 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
 <form method="post" action="/Account/Login">
     @Html.AntiForgeryToken()
   <div class="row register">
     <div class="col-md-3 register-left">
         <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
-        <h3>Welcome</h3>
-        <p>You are seconds away from accessing your preferred educational materials!</p>
-        <a class="btn btn-light rounded-3 mb-5" asp-area="" asp-controller="Account" asp-action="register">Register</a>
+        <h3>Welcome to Rufus Giwa Polytechnic</h3>
+        <p>You are seconds away from accessing your preferred educational materials!</p>       
+        <div class="dropdown">
+          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Register
+          </button>
+          <div class="dropdown-menu rounded-2 dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" asp-controller="Student" asp-action="register">Student</a>
+            <a class="dropdown-item" asp-controller="Lecturer" asp-action="RegistrationCode">Lecturer</a>
+          </div>
+        </div>
     </div>
 
     <div class="col-md-9 register-right">

@@ -1,0 +1,19 @@
+﻿@model RegistrationCodeViewModel
+@{
+    ViewData["Title"] = "Generate Code";
+}
+
+<h3 class="card-header mb-5">Generate Registration Code</h3>
+
+<form asp-action="GenerateCode" method="post">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group mt-5 mb-5">
+                <label asp-for="StaffNo">Enter Staff Number</label>
+                <input asp-for="StaffNo" class="form-control" />
+                <span asp-validation-for="StaffNo" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate Code</button>
+        </div>        
+    </div>    
+</form>

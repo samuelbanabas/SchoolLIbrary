@@ -1,0 +1,31 @@
+﻿@model StudentViewModel
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<div class="container mt-4">
+    <h3>Student Details</h3>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Model.ProfileImageUrl" alt="Profile Picture" class="img-fluid rounded mb-3">
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">@Model.FirstName @Model.LastName</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <strong>Registration Number:</strong> @Model.RegNo<br /><br />
+                        <strong>Email:</strong> @Model.Email<br /><br />
+                        <strong>Phone Number:</strong> @Model.PhoneNo<br /><br />
+                        <strong>User Type:</strong> @Model.UserType
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

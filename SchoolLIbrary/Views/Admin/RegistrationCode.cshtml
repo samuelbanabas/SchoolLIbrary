@@ -1,0 +1,64 @@
+﻿@model IEnumerable<RegistrationCodeViewModel>
+
+@{
+    ViewData["Title"] = "Generated Codes";
+}
+
+<h3 class="card-header">Generated Registration Codes</h3>
+
+<div class="row mb-4 mt-5">
+    <div class="col-md-6 ">
+        <form asp-action="RegistrationCode" method="get">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search by Staff number or code" name="SearchString">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6 text-right">
+        <a asp-action="GenerateCode" class="btn btn-primary ml-auto"><i class="fa fa-plus"></i> Generate New Code</a>
+    </div>
+</div>
+
+
+
+@if (!Model.Any())
+{
+    <p>No codes have been generated yet.</p>
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    Staff No.
+                </th>
+                <th>
+                    Code
+                </th>
+                <th>
+                    Date Generated
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var code in Model)
+            {
+                <tr>
+                    <td>
+                        @code.StaffNo
+                    </td>
+                    <td>
+                        @code.Code
+                    </td>
+                    <td>
+                        @code.DateGenerated
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

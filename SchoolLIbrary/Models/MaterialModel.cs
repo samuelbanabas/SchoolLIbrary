@@ -13,6 +13,7 @@
         public string Department { get; set; }
         public int? Quantity { get; set; }
         public DateTime DateCreated { get; set; }
-
+        public string? MaterialUrl { get; set; }
+        public ApplicationUser? User { get; set; }
     }
 }

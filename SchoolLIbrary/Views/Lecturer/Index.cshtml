@@ -1,0 +1,77 @@
+﻿@model LecturerDashboardViewModel;
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_LecturerLayout";
+}
+<div class="row">
+    <div class="col-md-2 mb-4">
+        <div class="card">
+            <img src="@Model.ProfileImageUrl" class="card-img-top" alt="Profile Image">
+            <div class="card-body mt-2">
+                <h5 class="card-title">@Model.User.FirstName @Model.User.LastName</h5>
+                <p class="card-text mb-5">@Model.User.RegNo</p>
+                <a href="@Url.Action("Edit", "Lecturer", new { id = Model.User.Id })" class="btn btn-primary">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Uploaded Materials</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4 mt-5">
+                    <div class="col-md-6">
+                        <form method="get" action="@Url.Action("Index")">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Search by title or author" name="searchString">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a asp-action="UploadMaterial" class="btn btn-primary ml-auto"><i class="fa fa-plus"></i> Upload New Material</a>
+                    </div>
+                </div>
+                @if (Model.Material.Any())
+                {
+                    <table class="table table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Faculty</th>
+                                <th>Department</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var book in Model.Material)
+                            {
+                                <tr>
+                                    <td>@book.Title</td>
+                                    <td>@book.Author</td>
+                                    <td>@book.Falculty</td>
+                                    <td>@book.Department</td>
+                                    <td>
+                                        <div class="ms-auto">
+                                            <a asp-action="MaterialDetails" asp-route-id="@book.Id" class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i> View</a>
+                                            <a onclick="location.href='@book.MaterialUrl'" class="btn btn-sm btn-outline-success"><i class="fa fa-download"></i> Download</a>
+                                            <a asp-action="DeleteMaterial" asp-route-id="@book.Id" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i> Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>No uploaded books</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+﻿@model BookViewModel
+
+<h3 class="mb-4 text-uppercase card-header">@Model.Title</h3>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Author</th>
+            <td>@Model.Author</td>
+        </tr>
+        <tr>
+            <th>Publisher</th>
+            <td>@Model.Publisher</td>
+        </tr>
+        <tr>
+            <th>Year</th>
+            <td>@Model.Year</td>
+        </tr>
+        <tr>
+            <th>Genre</th>
+            <td>@Model.Genre</td>
+        </tr>
+        <tr>
+            <th>Material Type</th>
+            <td>@Model.MaterialType</td>
+        </tr>
+        <tr>
+            <th>Falculty</th>
+            <td>@Model.Falculty</td>
+        </tr>
+        <tr>
+            <th>Department</th>
+            <td>@Model.Department</td>
+        </tr>
+        <tr>
+            <th>Quantity</th>
+            <td>@Model.Quantity</td>
+        </tr>
+        <tr>
+            <th>Date Created</th>
+            <td>@Model.DateCreated.ToShortDateString()</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-sm">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    </div>
+    <div class="col-sm text-end">
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this book?');">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+</div>

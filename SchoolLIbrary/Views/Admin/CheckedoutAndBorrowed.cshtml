@@ -1,0 +1,75 @@
+﻿
+@model IEnumerable<CheckedOutMaterialsViewModel>
+
+@{
+    ViewData["Title"] = "Checkouts and Borrowings";
+}
+
+<h3 class="card-header">Checked Out/Borrowed/Returned Books</h3>
+<div class="row mb-4">
+    <div class="col-md-6 mt-5">
+        <form method="get" action="@Url.Action("CheckedoutAndBorrowed", "Admin")">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="searchString" placeholder="Search by title or Regno or Code" value="@ViewBag.SearchString" />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Material Title</th>
+                <th>User Name</th>
+                <th>Student RegNo</th>
+                <th>Student Phone</th>
+                <th>Status</th>
+                <th>Fine</th>
+                <th>Checkout Date</th>
+                <th>Return Date</th>
+                <th>Code</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var materialCheckout in Model)
+            {
+                <tr>
+                    <td>@materialCheckout.MaterialTitle</td>
+                    <td>@materialCheckout.UserName</td>
+                    <td>@materialCheckout.RegNo</td>
+                    <td>@materialCheckout.PhoneNumber</td>
+                    <td>@materialCheckout.Status</td>
+                    <td>N @materialCheckout.Fine</td>
+                    <td>@materialCheckout.CheckoutDate.ToShortDateString()</td>
+                    <td>@materialCheckout.ReturnDate.ToShortDateString()</td>
+                    <td>@materialCheckout.CheckoutCode</td>
+                    <td>
+                        @if (materialCheckout.Status == "Borrowed")
+                        {
+                            <form method="post" action="@Url.Action("AcceptReturn", "Admin", new { checkoutId = materialCheckout.Id })">
+                                <button type="submit" class="btn btn-sm btn-warning">Confirm Return</button>
+                            </form>
+                        }
+                        else if (materialCheckout.Status == "CheckedOut")
+                        {
+                            <form method="post" action="@Url.Action("ConfirmBorrowing", "Admin", new { checkoutId = materialCheckout.Id })">
+                                <button type="submit" class="btn btn-sm btn-primary">Confirm Borrowing</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <i class="fa-regular fa-thumbs-up text-primary fw-bold"></i>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

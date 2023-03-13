@@ -1,0 +1,19 @@
+﻿.badge-random {
+    background-color: #FFC107; /* Yellow */
+   color:white;
+}
+
+.badge-random-2 {
+    background-color: #28A745; /* Green */
+    color: white;
+}
+
+.badge-random-3 {
+    background-color: #007BFF; /* Blue */
+    color: white;
+}
+
+.badge-random-4 {
+    background-color: red; /* red */
+    color: white;
+}

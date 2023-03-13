@@ -1,0 +1,32 @@
+﻿@model LecturerViewModel
+
+@{
+    ViewData["Title"] = "Delete Lecturer";
+}
+
+<h3 class="card-header mb-4">Delete Lecturer</h3>
+
+<p class="bg-danger text-white mb-4 p-2">Are you sure you want to delete the following lecturer?</p>
+
+<img src="@Model.ProfileImageUrl" alt="@Model.FirstName @Model.LastName" class="img-thumbnail" style="max-width: 200px; max-height: 200px; margin-bottom: 20px;">
+<div class="col-6">
+    <table class="table">
+        <tr>
+            <td><strong>First Name:</strong></td>
+            <td>@Model.FirstName</td>
+        </tr>
+        <tr>
+            <td><strong>Last Name:</strong></td>
+            <td>@Model.LastName</td>
+        </tr>
+        <tr>
+            <td><strong>Staff Number:</strong></td>
+            <td>@Model.RegNo</td>
+        </tr>
+    </table>
+
+    <form asp-action="DeleteLecturer" asp-route-id="@Model.Id" method="post">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="LecturerList" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

@@ -28,26 +28,17 @@ namespace SchoolLIbrary.Controllers
             {
                 //Get user from the logged in User
                 var user = await _userManager.GetUserAsync(User);
+
                 //retrieve the user's first and last name from the LibraryUser table
                 var libraryUser = _context.LibraryUsers.FirstOrDefault(x => x.UserId == user.Id);
-                //var AppUser = _context.Appl.FirstOrDefault(x => x.UserId == user.Id);
+
                
                 var model = new HomeViewModel
                 {
-                    FirstName = libraryUser.FirstName,
-                    LastName = libraryUser.LastName
+                    //FirstName = libraryUser.FirstName,
+                    //LastName = libraryUser.LastName
                 };
-
-                //var LoginModel = new LoginViewModel
-                //{
-                //    Username = libraryUser.Username
-                //};
-
-                ////Inherit the properties of the 2 models
-                //var viewModel = new DashboardViewModel { ImagePath=user.ProfileImageUrl, HomeviewModel=model, LoginviewModel=LoginModel };
-
-                // User is logged in
-                //return View(viewModel);
+               
                 return View(model);
             }
             else

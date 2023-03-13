@@ -1,0 +1,178 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+@model HomeViewModel;
+<link href="~/css/randombg.css" rel="stylesheet" />
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-info text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Total Students</h5>
+                            <h2 class="card-subtitle mb-2">@Model.TotalStudents</h2>
+                        </div>
+                        <i class="fas fa-user-graduate fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Total Lecturers</h5>
+                            <h2 class="card-subtitle mb-2">@Model.TotalLecturers</h2>
+                        </div>
+                        <i class="fas fa-user-pen fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Total Materials</h5>
+                            <h2 class="card-subtitle mb-2">@Model.TotalMaterials</h2>
+                        </div>
+                        <i class="fa fa-book fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-secondary text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Available Materials</h5>
+                            <h2 class="card-subtitle mb-2">@Model.AvailableMaterials</h2>
+                        </div>
+                        <i class="fas fa-book-open fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-danger text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Electronic Materials</h5>
+                            <h2 class="card-subtitle mb-2">@Model.TotalE_materials</h2>
+                        </div>
+                        <i class="fas fa-laptop-file fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-info text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Checkedout Books</h5>
+                            <h2 class="card-subtitle mb-2">@Model.CheckedOutMaterials</h2>
+                        </div>
+                        <i class="fas fa-file-circle-check fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-dark text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Borrowed Books</h5>
+                            <h2 class="card-subtitle mb-2">@Model.BorrowedMaterials</h2>
+                        </div>
+                        <i class="fas fa-hand-holding fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Returned Books</h5>
+                            <h2 class="card-subtitle mb-2">@Model.ReturnedMaterials</h2>
+                        </div>
+                        <i class="fas fa-hand-holding-hand fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+    <div class="row mt-5">
+        <div class="col-lg-6 col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Material Additions</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var material in Model.RecentMaterials!)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @{
+                                    
+                                    @if (string.IsNullOrEmpty(material.MaterialUrl))
+                                    {
+                                        <a asp-action="BookDetails" asp-route-id="@material.Id">@material.Title</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@material.MaterialUrl">@material.Title</a>
+                                    }
+                                    var randomClass = "badge-random-" + new Random().Next(1, 5);
+                                    <span class="badge @randomClass rounded-pill">@material.Genre</span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title">Most Popular Books</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var material in Model.TopBorrowedMaterials!)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @{
+                                    @if (string.IsNullOrEmpty(material.MaterialUrl))
+                                    {
+                                        <a asp-action="BookDetails" asp-route-id="@material.Id">@material.Title</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@material.MaterialUrl">@material.Title</a>
+                                    }
+                                    var randomClass = "badge-random-" + new Random().Next(1, 5);
+                                    <span class="badge @randomClass rounded-pill">@material.Genre</span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

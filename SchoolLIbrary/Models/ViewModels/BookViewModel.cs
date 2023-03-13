@@ -22,6 +22,7 @@ namespace SchoolLIbrary.Models.ViewModels
         public string Genre { get; set; }
 
         [Required]
+        [Display(Name = "Material Type")]
         public string MaterialType { get; set; }
 
         [Required]
@@ -34,6 +35,8 @@ namespace SchoolLIbrary.Models.ViewModels
         public int? Quantity { get; set; }
 
         [Required]
-        public string DateCreated { get; set; }
+        [Display(Name = "Date Created")]
+        public DateTime DateCreated { get; set; }
+        public int? QuantityLeft { get; set; }
     }
 }

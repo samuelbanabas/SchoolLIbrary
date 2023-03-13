@@ -15,6 +15,8 @@ namespace SchoolLIbrary.Models.ViewModels
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
         public string? Role { get;  set; }
+
+        //public string UserType { get; set; }
     }
 
 }

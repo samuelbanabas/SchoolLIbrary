@@ -1,0 +1,13 @@
+﻿@model RegistrationCodeViewModel
+
+@{
+    ViewData["Title"] = "Generated code dertails";
+}
+
+<h3 class="text-center card-header mb-5 mt-5">Generated Code Details</h3>
+
+<div class="text-center mt-5">
+    <h4 class="mb-5"><strong>Staff No:</strong> @Model.StaffNo</h4>
+    <h2 class="text-danger mt-5 mb-lg-5">@Model.Code</h2>
+    <a asp-action="RegistrationCode" class="btn btn-danger btn-lg">Exit</a>
+</div>

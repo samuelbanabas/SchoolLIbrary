@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\profiles\" />
+    <Folder Include="wwwroot\UploadMaterials\" />
   </ItemGroup>
 
 </Project>

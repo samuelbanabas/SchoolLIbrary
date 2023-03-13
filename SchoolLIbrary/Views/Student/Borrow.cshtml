@@ -1,0 +1,21 @@
+﻿@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Books/Materials";
+    Layout = "_StudentLayout";
+}
+<div class="text-center">
+    <h2 class="card-title mb-5">@Model.MaterialTitle</h2>
+
+    <h5 class="text-black fw-light mb-5">You are borrowing this book. You have one month window to pick and return it.
+        <br /> <br />Save the code below. You will use it to borrow and return this book only.
+        <br /> <br />Please show this code to the librarian when you want to pick up this book:</h5>
+
+    <div class="fw-bold mb-5 m-3">
+        <h1 class="m-4 text-danger">@Model.CheckoutCode</h1>
+    </div>
+    <form method="post" action="@Url.Action("ConfirmBorrow", "Student", new { materialId = Model.MaterialId, code = Model.CheckoutCode })">
+        <button type="submit" class="btn btn-primary mt-4">Confirm Borrow</button>
+    </form>
+
+    
+</div>
